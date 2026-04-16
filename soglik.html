@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SoglikInfo — Sog'lik Markazi</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green:#1a9e6a;
+  --green-light:#e8f7f1;
+  --green-dark:#0d6e4a;
+  --blue:#2563eb;
+  --blue-light:#eff6ff;
+  --orange:#f59e0b;
+  --orange-light:#fffbeb;
+  --red:#ef4444;
+  --red-light:#fef2f2;
+  --bg:#f0faf5;
+  --card:#ffffff;
+  --text:#1a2e1e;
+  --muted:#6b7280;
+  --border:#d1fae5;
+  --radius:16px;
+  --shadow:0 4px 24px rgba(26,158,106,0.10);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.9rem 2rem;
+}
+.nav-logo{
+  font-size:1.5rem;font-weight:900;color:var(--green);
+  display:flex;align-items:center;gap:8px;
+}
+.nav-logo span{color:var(--text)}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{
+  background:none;border:none;cursor:pointer;
+  padding:0.5rem 1.1rem;border-radius:50px;
+  font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;
+  color:var(--muted);transition:all 0.2s;
+}
+.nav-tab:hover{background:var(--green-light);color:var(--green)}
+.nav-tab.active{background:var(--green);color:#fff}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#e8f7f1 0%,#d1fae5 50%,#bfece0 100%);
+  padding:4rem 2rem 3rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'🏥';font-size:12rem;
+  position:absolute;right:-2rem;top:-1rem;
+  opacity:0.06;pointer-events:none;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fff;border:1.5px solid var(--border);
+  padding:6px 16px;border-radius:50px;
+  font-size:0.78rem;font-weight:700;color:var(--green);
+  margin-bottom:1.2rem;letter-spacing:0.05em;
+}
+.hero h1{
+  font-family:'Lora',serif;
+  font-size:clamp(2rem,5vw,3.2rem);
+  font-weight:600;color:var(--text);
+  line-height:1.2;margin-bottom:1rem;
+}
+.hero h1 strong{color:var(--green)}
+.hero p{
+  font-size:1.05rem;color:var(--muted);
+  max-width:520px;margin:0 auto 2rem;line-height:1.7;
+}
+.hero-cards{
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  margin-top:2rem;
+}
+.hero-card{
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:1.2rem 1.8rem;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  cursor:pointer;transition:all 0.25s;
+  min-width:150px;box-shadow:var(--shadow);
+}
+.hero-card:hover{transform:translateY(-4px);border-color:var(--green);box-shadow:0 8px 32px rgba(26,158,106,0.18)}
+.hero-card-icon{font-size:2.2rem}
+.hero-card-label{font-size:0.82rem;font-weight:800;color:var(--text)}
+.hero-card-sub{font-size:0.72rem;color:var(--muted)}
+
+/* PAGES */
+.page{display:none;padding:2rem;max-width:900px;margin:0 auto;animation:fadeIn 0.4s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION TITLE */
+.sec-title{
+  font-family:'Lora',serif;
+  font-size:1.8rem;font-weight:600;
+  color:var(--text);margin-bottom:0.4rem;
+}
+.sec-sub{color:var(--muted);font-size:0.95rem;margin-bottom:1.8rem;line-height:1.6}
+
+/* SEARCH BOX */
+.search-box{
+  display:flex;gap:10px;margin-bottom:1.5rem;
+  background:#fff;border:2px solid var(--border);
+  border-radius:50px;padding:6px 6px 6px 1.2rem;
+  box-shadow:var(--shadow);transition:border-color 0.2s;
+}
+.search-box:focus-within{border-color:var(--green)}
+.search-box input{
+  flex:1;border:none;outline:none;font-family:'Nunito',sans-serif;
+  font-size:1rem;color:var(--text);background:transparent;
+}
+.search-box input::placeholder{color:#aaa}
+.search-btn{
+  background:var(--green);color:#fff;border:none;
+  padding:0.6rem 1.4rem;border-radius:50px;
+  font-family:'Nunito',sans-serif;font-weight:800;
+  font-size:0.9rem;cursor:pointer;transition:background 0.2s;
+}
+.search-btn:hover{background:var(--green-dark)}
+
+/* MEDICINE CARDS */
+.medicine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+.med-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:1.4rem;
+  box-shadow:var(--shadow);transition:all 0.25s;cursor:pointer;
+}
+.med-card:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 8px 28px rgba(26,158,106,0.15)}
+.med-card-top{display:flex;align-items:center;gap:12px;margin-bottom:0.8rem}
+.med-icon{
+  width:44px;height:44px;background:var(--green-light);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;
+}
+.med-name{font-size:1rem;font-weight:800;color:var(--text)}
+.med-type{font-size:0.72rem;color:var(--green);font-weight:700;background:var(--green-light);padding:2px 8px;border-radius:50px}
+.med-desc{font-size:0.85rem;color:var(--muted);line-height:1.6;margin-bottom:0.8rem}
+.med-dose{
+  background:var(--green-light);border-radius:10px;
+  padding:0.6rem 0.9rem;font-size:0.82rem;color:var(--green-dark);font-weight:700;
+}
+.med-dose span{font-weight:400;color:var(--muted)}
+.med-warning{
+  margin-top:0.6rem;background:var(--orange-light);border-radius:10px;
+  padding:0.5rem 0.9rem;font-size:0.78rem;color:#92400e;
+  display:flex;align-items:flex-start;gap:6px;
+}
+
+/* SYMPTOM */
+.symptom-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.7rem;margin-bottom:1.5rem}
+.symptom-btn{
+  background:#fff;border:2px solid var(--border);
+  border-radius:12px;padding:0.8rem 0.5rem;
+  cursor:pointer;text-align:center;transition:all 0.2s;
+  font-family:'Nunito',sans-serif;
+}
+.symptom-btn:hover{border-color:var(--green);background:var(--green-light)}
+.symptom-btn.selected{border-color:var(--green);background:var(--green);color:#fff}
+.symptom-btn .s-icon{font-size:1.6rem;display:block;margin-bottom:4px}
+.symptom-btn .s-name{font-size:0.78rem;font-weight:700}
+.check-btn{
+  background:var(--green);color:#fff;border:none;
+  padding:0.9rem 2rem;border-radius:50px;
+  font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;
+  cursor:pointer;transition:all 0.2s;display:block;width:100%;max-width:300px;margin:0 auto;
+}
+.check-btn:hover{background:var(--green-dark);transform:translateY(-2px)}
+.result-box{
+  background:#fff;border:2px solid var(--green);
+  border-radius:var(--radius);padding:1.5rem;
+  margin-top:1.5rem;display:none;animation:fadeIn 0.4s ease;
+}
+.result-box.show{display:block}
+.result-title{font-size:1.1rem;font-weight:800;color:var(--green);margin-bottom:0.8rem}
+.result-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:0.8rem;background:var(--bg);border-radius:10px;margin-bottom:0.6rem;
+}
+.result-prob{
+  min-width:44px;height:44px;border-radius:10px;
+  background:var(--green-light);color:var(--green);
+  font-weight:900;font-size:0.85rem;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+}
+.result-name{font-weight:800;font-size:0.95rem;margin-bottom:2px}
+.result-desc{font-size:0.8rem;color:var(--muted);line-height:1.5}
+.doctor-note{
+  background:var(--blue-light);border:1.5px solid #bfdbfe;
+  border-radius:12px;padding:1rem;margin-top:1rem;
+  font-size:0.85rem;color:#1e3a8a;display:flex;gap:10px;align-items:flex-start;
+}
+
+/* HEALTH */
+.health-tabs{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.h-tab{
+  background:#fff;border:2px solid var(--border);
+  border-radius:50px;padding:0.5rem 1.2rem;
+  font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;
+  cursor:pointer;color:var(--muted);transition:all 0.2s;
+}
+.h-tab:hover{border-color:var(--green);color:var(--green)}
+.h-tab.active{background:var(--green);border-color:var(--green);color:#fff}
+.health-content{display:none}
+.health-content.active{display:block;animation:fadeIn 0.3s ease}
+.tip-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.tip-card{
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:1.3rem;box-shadow:var(--shadow);
+}
+.tip-card-top{display:flex;align-items:center;gap:10px;margin-bottom:0.7rem}
+.tip-icon{font-size:1.8rem}
+.tip-title{font-size:0.95rem;font-weight:800}
+.tip-text{font-size:0.83rem;color:var(--muted);line-height:1.65}
+.bmi-calc{
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);max-width:420px;
+}
+.bmi-row{display:flex;gap:1rem;margin-bottom:1rem}
+.bmi-field{flex:1}
+.bmi-field label{display:block;font-size:0.8rem;font-weight:700;color:var(--muted);margin-bottom:4px}
+.bmi-field input{
+  width:100%;border:2px solid var(--border);border-radius:10px;
+  padding:0.6rem 0.8rem;font-family:'Nunito',sans-serif;font-size:1rem;
+  outline:none;transition:border-color 0.2s;
+}
+.bmi-field input:focus{border-color:var(--green)}
+.bmi-result{
+  margin-top:1rem;padding:1rem;border-radius:12px;
+  text-align:center;display:none;animation:fadeIn 0.3s ease;
+}
+.bmi-result.show{display:block}
+.bmi-num{font-size:2.5rem;font-weight:900}
+.bmi-label{font-size:0.9rem;font-weight:700;margin-top:4px}
+.menu-section{margin-bottom:1.5rem}
+.menu-day{
+  font-size:0.8rem;font-weight:800;color:var(--green);
+  letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.8rem;
+}
+.menu-card{
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:12px;padding:1rem 1.2rem;margin-bottom:0.5rem;
+  display:flex;align-items:center;gap:12px;
+}
+.menu-time{font-size:0.75rem;font-weight:800;color:var(--muted);min-width:60px}
+.menu-food{font-size:0.88rem;font-weight:700}
+.menu-cal{font-size:0.75rem;color:var(--green);font-weight:700;margin-left:auto}
+
+/* FOOTER */
+footer{
+  background:#fff;border-top:1.5px solid var(--border);
+  text-align:center;padding:2rem;margin-top:3rem;
+}
+.footer-logo{font-size:1.3rem;font-weight:900;color:var(--green);margin-bottom:0.5rem}
+.footer-text{font-size:0.8rem;color:var(--muted);line-height:1.6;max-width:400px;margin:0 auto}
+.footer-warning{
+  display:inline-block;margin-top:1rem;
+  background:var(--red-light);border:1px solid #fecaca;
+  border-radius:8px;padding:0.5rem 1rem;
+  font-size:0.75rem;color:#991b1b;font-weight:700;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  nav{padding:0.8rem 1rem}
+  .nav-tab{padding:0.4rem 0.7rem;font-size:0.78rem}
+  .hero{padding:2.5rem 1rem 2rem}
+  .page{padding:1.2rem}
+  .hero-cards{gap:0.7rem}
+  .hero-card{min-width:120px;padding:1rem 1.2rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">🌿 <span>Soglik</span>Info</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('home')">🏠 Bosh</button>
+    <button class="nav-tab" onclick="showPage('medicine')">💊 Dori</button>
+    <button class="nav-tab" onclick="showPage('symptom')">🤒 Alomat</button>
+    <button class="nav-tab" onclick="showPage('health')">🥗 Sog'liq</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="hero">
+    <div class="hero-badge">✅ Bepul · Ishonchli · O'zbek tilida</div>
+    <h1>Sog'ligingiz uchun<br><strong>Hamma Narsa Bir Joyda</strong></h1>
+    <p>Dori ma'lumotlari, alomatlar bo'yicha tahlil va sog'lom hayot maslahatlari — barchasi bepul va tushunarli tarzda.</p>
+    <div class="hero-cards">
+      <div class="hero-card" onclick="showPage('medicine')">
+        <span class="hero-card-icon">💊</span>
+        <span class="hero-card-label">Dori Ma'lumoti</span>
+        <span class="hero-card-sub">Doza, yon ta'sir</span>
+      </div>
+      <div class="hero-card" onclick="showPage('symptom')">
+        <span class="hero-card-icon">🤒</span>
+        <span class="hero-card-label">Alomat Tekshir</span>
+        <span class="hero-card-sub">Kasallik aniqlash</span>
+      </div>
+      <div class="hero-card" onclick="showPage('health')">
+        <span class="hero-card-icon">🥗</span>
+        <span class="hero-card-label">Sog'lom Hayot</span>
+        <span class="hero-card-sub">Maslahatlar, BMI</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MEDICINE -->
+<div id="medicine" class="page">
+  <div class="sec-title">💊 Dori-Darmon Ma'lumotlari</div>
+  <p class="sec-sub">Dori nomi yoki kasallik bo'yicha qidiring. Doza, ishlatilishi va ogohlantirishlar haqida ma'lumot oling.</p>
+  <div class="search-box">
+    <input type="text" id="medSearch" placeholder="Masalan: Paratsetamol, Ibuprofen, Amoksitsillin..." oninput="filterMeds()">
+    <button class="search-btn">🔍 Qidirish</button>
+  </div>
+  <div class="medicine-grid" id="medGrid"></div>
+</div>
+
+<!-- SYMPTOM -->
+<div id="symptom" class="page">
+  <div class="sec-title">🤒 Alomatlarni Tekshirish</div>
+  <p class="sec-sub">Qaysi alomatlar sizda borligini belgilang. Dastur eng ehtimoliy kasalliklarni ko'rsatadi. <strong>Bu shifokor o'rnini bosmaydi!</strong></p>
+  <div class="symptom-grid" id="symptomGrid"></div>
+  <button class="check-btn" onclick="checkSymptoms()">🔍 Tahlil Qilish</button>
+  <div class="result-box" id="resultBox">
+    <div class="result-title">📋 Tahlil Natijasi</div>
+    <div id="resultList"></div>
+    <div class="doctor-note">
+      <span style="font-size:1.3rem">⚠️</span>
+      <div><strong>Muhim eslatma:</strong> Bu natijalar faqat ma'lumot uchun. Aniq tashxis uchun albatta shifokorga murojaat qiling.</div>
+    </div>
+  </div>
+</div>
+
+<!-- HEALTH -->
+<div id="health" class="page">
+  <div class="sec-title">🥗 Sog'lom Turmush Tarzi</div>
+  <p class="sec-sub">BMI hisoblash, kunlik maslahatlar va sog'lom ovqatlanish menyu.</p>
+  <div class="health-tabs">
+    <button class="h-tab active" onclick="showHealth('tips')">💡 Maslahatlar</button>
+    <button class="h-tab" onclick="showHealth('bmi')">⚖️ BMI Hisoblash</button>
+    <button class="h-tab" onclick="showHealth('menu')">🍽️ Haftalik Menyu</button>
+  </div>
+
+  <div class="health-content active" id="tips">
+    <div class="tip-cards" id="tipCards"></div>
+  </div>
+
+  <div class="health-content" id="bmi">
+    <div class="bmi-calc">
+      <div style="font-weight:800;font-size:1.1rem;margin-bottom:1rem">⚖️ BMI Kalkulyator</div>
+      <div class="bmi-row">
+        <div class="bmi-field">
+          <label>Bo'y (sm)</label>
+          <input type="number" id="height" placeholder="170" oninput="calcBMI()">
+        </div>
+        <div class="bmi-field">
+          <label>Og'irlik (kg)</label>
+          <input type="number" id="weight" placeholder="70" oninput="calcBMI()">
+        </div>
+      </div>
+      <div class="bmi-result" id="bmiResult">
+        <div class="bmi-num" id="bmiNum">—</div>
+        <div class="bmi-label" id="bmiLabel">—</div>
+        <div style="font-size:0.78rem;color:var(--muted);margin-top:8px" id="bmiAdvice"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="health-content" id="menu">
+    <div id="menuContent"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">🌿 SoglikInfo</div>
+  <p class="footer-text">Bu sayt ommaviy sog'liq ma'lumotlarini taqdim etadi. Tibbiy muammo bo'lsa, albatta mutaxassis shifokorga murojaat qiling.</p>
+  <div class="footer-warning">⚠️ Bu sayt tibbiy tashxis qo'ymaydi. Faqat ma'lumot uchun!</div>
+</footer>
+
+<script>
+// DATA
+const medicines = [
+  {icon:'🔴',name:'Paratsetamol',type:'Og\'riq qoldiruvchi',desc:'Bosh og\'rig\'i, isitma, tish og\'rig\'i va mushaklarning og\'rig\'ini kamaytiradi.',dose:'Kattalar: 500mg — 1000mg, kuniga 3-4 marta',warning:'Me\'da kasalligi bo\'lsa ehtiyotkorlik bilan. Alkogol bilan qabul qilmang.'},
+  {icon:'🟠',name:'Ibuprofen',type:'Yallig\'lanishga qarshi',desc:'Yallig\'lanish, og\'riq va isitmani kamaytiradi. Bo\'g\'im og\'rig\'i uchun yaxshi.',dose:'Kattalar: 200mg — 400mg, kuniga 3 marta, ovqatdan keyin',warning:'Me\'da yarasi bo\'lsa qabul qilmang. Homiladorlikda ehtiyotkorlik.'},
+  {icon:'🔵',name:'Amoksitsillin',type:'Antibiotik',desc:'Bakterial infeksiyalar, angina, bronxit, pnevmoniya va siydik yo\'llari infeksiyalarida ishlatiladi.',dose:'Kattalar: 500mg, kuniga 3 marta, 5-10 kun davomida',warning:'Faqat shifokor buyrug\'i bilan! Penitsillinga allergiya bo\'lsa qabul qilmang.'},
+  {icon:'🟢',name:'Loratadin',type:'Allergiyaga qarshi',desc:'Mavsumiy allergiya, shamollatish, terining qichishishi va ko\'z yoshlanishida yordam beradi.',dose:'Kattalar: 10mg, kuniga 1 marta (ertalab)',warning:'Uyquchanlik keltirib chiqarishi mumkin. Avtomobil haydashda ehtiyot bo\'ling.'},
+  {icon:'🟡',name:'Omeprazol',type:'Me\'da uchun',desc:'Oshqozon kislotasini kamaytiradi. Me\'da yarasi, reflyuks kasalligida ishlatiladi.',dose:'Kattalar: 20mg, ovqatdan 30 daqiqa oldin, kuniga 1-2 marta',warning:'Uzoq muddat qabul qilish D vitamini va magniy tanqisligiga olib kelishi mumkin.'},
+  {icon:'🩵',name:'Metformin',type:'Diabet uchun',desc:'2-toifa diabet davolashda qo\'llaniladi. Qon shakarini normallashtiradi.',dose:'Kattalar: 500mg — 1000mg, kuniga 2-3 marta, ovqat bilan',warning:'Buyrak muammolari bo\'lsa ehtiyotkor bo\'ling. Alkogol qabul qilmang.'},
+  {icon:'🔶',name:'Validol',type:'Yurak uchun',desc:'Yurak sohasidagi og\'riq va qo\'rquv hisini kamaytiradi. Tinchlantiruvchi ta\'sir ko\'rsatadi.',dose:'1 tabletka til ostiga, kuniga 2-3 marta',warning:'Past bosim bo\'lsa ehtiyotkorlik. Bosh aylanishi mumkin.'},
+  {icon:'🩷',name:'No-shpa',type:'Tortishuvga qarshi',desc:'Ichki a\'zolar mushaklarining spazmasini kamaytiradi. Qorin og\'rig\'i, buyrak og\'rig\'idan yordam beradi.',dose:'Kattalar: 1-2 tabletka (40-80mg), kuniga 3 marta',warning:'Past qon bosimi bo\'lganda ehtiyotkorlik bilan.'},
+];
+
+const symptoms = [
+  {icon:'🤧',name:'Burun oqishi'},{icon:'🤒',name:'Isitma'},{icon:'😮‍💨',name:'Yo\'tal'},
+  {icon:'🤕',name:'Bosh og\'rig\'i'},{icon:'😵',name:'Bosh aylanishi'},{icon:'🤢',name:'Ko\'ngil aynish'},
+  {icon:'🤮',name:'Qayt qilish'},{icon:'😩',name:'Qorin og\'rig\'i'},{icon:'💩',name:'Ich ketish'},
+  {icon:'😴',name:'Charchash'},{icon:'🦴',name:'Bo\'g\'im og\'rig\'i'},{icon:'👁️',name:'Ko\'z og\'rig\'i'},
+  {icon:'👂',name:'Quloq og\'rig\'i'},{icon:'🫁',name:'Nafas qisilishi'},{icon:'❤️',name:'Yurak urishi'},
+  {icon:'🔥',name:'Ter chiqishi'},{icon:'🥶',name:'Titroq'},{icon:'🤧',name:'Tomoq og\'rig\'i'},
+];
+
+const diseases = {
+  'Burun oqishi,Yo\'tal,Isitma,Tomoq og\'rig\'i':{name:'Shamollash (ARVI)',prob:'Yuqori',desc:'Oddiy shamollash. Ko\'p suyuqlik iching, dam oling.'},
+  'Isitma,Bosh og\'rig\'i,Charchash,Bo\'g\'im og\'rig\'i':{name:'Gripp',prob:'Yuqori',desc:'Gripp virusi. Shifokorga murojaat qiling.'},
+  'Qorin og\'rig\'i,Ko\'ngil aynish,Qayt qilish,Ich ketish':{name:'Ovqat zaharlash',prob:'Yuqori',desc:'Ko\'p suyuqlik iching. Agar 2 kundan oshsa shifokorga boring.'},
+  'Bosh og\'rig\'i,Bosh aylanishi,Charchash':{name:'Arterial bosim o\'zgarishi',prob:'O\'rta',desc:'Bosimingizni o\'lchang. Shifokorga murojaat qiling.'},
+  'Nafas qisilishi,Yo\'tal,Isitma,Charchash':{name:'Bronxit / Pnevmoniya',prob:'Yuqori',desc:'Tezda shifokorga murojaat qiling!'},
+};
+
+const tips = [
+  {icon:'💧',title:'Kuniga 8 stakan suv iching',text:'Suv tanadan zaharli moddalarni chiqaradi, terini sog\'lom saqlaydi va energiyani oshiradi.'},
+  {icon:'🚶',title:'Har kuni 30 daqiqa yuring',text:'Piyoda yurish yurak-tomir tizimini mustahkamlaydi, kayfiyatni yaxshilaydi va og\'irlikni kamaytiradi.'},
+  {icon:'😴',title:'7-8 soat uxlang',text:'To\'liq uyqu immunitetni kuchaytiradi, xotirani yaxshilaydi va stress gormonlarini kamaytiradi.'},
+  {icon:'🥦',title:'Ko\'proq sabzavot yeng',text:'Har kuni kamida 5 ta turli sabzavot va meva iste\'mol qiling. Vitaminlar va minerallar immunitetni oshiradi.'},
+  {icon:'🚭',title:'Chekishdan voz keching',text:'Chekish o\'pka, yurak va qon tomirlariga zarar yetkazadi. Bugun to\'xtatish hech qachon kech emas.'},
+  {icon:'🧘',title:'Stress bilan kurashing',text:'Meditatsiya, nafas mashqlari yoki sevimli hobby stress darajasini pasaytiradi va sog\'liqni yaxshilaydi.'},
+  {icon:'☀️',title:'Quyosh nuridan foydalaning',text:'Kunda 15-20 daqiqa quyoshda bo\'lish D vitamini sintezini ta\'minlaydi va kayfiyatni ko\'taradi.'},
+  {icon:'🦷',title:'Tishlarni tozalang',text:'Kuniga 2 marta tish yuvish va ipchalik tish o\'tkazish og\'iz sog\'lig\'i va yurak salomatligini saqlaydi.'},
+];
+
+const weekMenu = [
+  {day:'Dushanba',meals:[
+    {time:'Nonushta',food:'Suli bo\'tqasi + 1 olma + ko\'k choy',cal:'320 kkal'},
+    {time:'Tushlik',food:'Tovuq sho\'rvasi + bug\'langan sabzavot + non',cal:'480 kkal'},
+    {time:'Kechki',food:'Tvorog + asal + gilos',cal:'250 kkal'},
+  ]},
+  {day:'Seshanba',meals:[
+    {time:'Nonushta',food:'2 ta tuxum (qaynatilgan) + tomat + non',cal:'290 kkal'},
+    {time:'Tushlik',food:'Baliq (bug\'langan) + guruch + salat',cal:'450 kkal'},
+    {time:'Kechki',food:'Kefir + banana',cal:'200 kkal'},
+  ]},
+  {day:'Chorshanba',meals:[
+    {time:'Nonushta',food:'Yogurt + muesli + rezavor',cal:'310 kkal'},
+    {time:'Tushlik',food:'Go\'sht (mol) + kartoshka + sabzavot sho\'rvasi',cal:'520 kkal'},
+    {time:'Kechki',food:'Pishloq + bodring + limon suvli suv',cal:'180 kkal'},
+  ]},
+];
+
+// RENDER MEDICINES
+function renderMeds(data){
+  const g = document.getElementById('medGrid');
+  g.innerHTML = data.length === 0
+    ? '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:2rem">Dori topilmadi 🔍</p>'
+    : data.map(m=>`
+    <div class="med-card">
+      <div class="med-card-top">
+        <div class="med-icon">${m.icon}</div>
+        <div><div class="med-name">${m.name}</div><div class="med-type">${m.type}</div></div>
+      </div>
+      <div class="med-desc">${m.desc}</div>
+      <div class="med-dose">📋 Doza: <span>${m.dose}</span></div>
+      <div class="med-warning">⚠️ ${m.warning}</div>
+    </div>`).join('');
+}
+renderMeds(medicines);
+
+function filterMeds(){
+  const q = document.getElementById('medSearch').value.toLowerCase();
+  renderMeds(medicines.filter(m=>m.name.toLowerCase().includes(q)||m.type.toLowerCase().includes(q)||m.desc.toLowerCase().includes(q)));
+}
+
+// RENDER SYMPTOMS
+const selectedSymptoms = new Set();
+document.getElementById('symptomGrid').innerHTML = symptoms.map((s,i)=>`
+  <button class="symptom-btn" onclick="toggleSymptom(this,'${s.name}')">
+    <span class="s-icon">${s.icon}</span>
+    <span class="s-name">${s.name}</span>
+  </button>`).join('');
+
+function toggleSymptom(btn, name){
+  btn.classList.toggle('selected');
+  if(selectedSymptoms.has(name)) selectedSymptoms.delete(name);
+  else selectedSymptoms.add(name);
+}
+
+function checkSymptoms(){
+  const sel = [...selectedSymptoms];
+  if(sel.length < 2){alert('Kamida 2 ta alomat tanlang!');return}
+  const results = [];
+  for(const [key,val] of Object.entries(diseases)){
+    const keys = key.split(',');
+    const matches = keys.filter(k=>sel.includes(k)).length;
+    if(matches >= 1) results.push({...val, score: matches/keys.length});
+  }
+  results.sort((a,b)=>b.score-a.score);
+  const box = document.getElementById('resultBox');
+  const list = document.getElementById('resultList');
+  if(results.length === 0){
+    list.innerHTML = '<div class="result-item">Aniq mos kasallik topilmadi. Shifokorga murojaat qiling.</div>';
+  } else {
+    list.innerHTML = results.slice(0,3).map(r=>`
+      <div class="result-item">
+        <div class="result-prob">${r.prob}</div>
+        <div><div class="result-name">${r.name}</div><div class="result-desc">${r.desc}</div></div>
+      </div>`).join('');
+  }
+  box.classList.add('show');
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// RENDER TIPS
+document.getElementById('tipCards').innerHTML = tips.map(t=>`
+  <div class="tip-card">
+    <div class="tip-card-top"><span class="tip-icon">${t.icon}</span><span class="tip-title">${t.title}</span></div>
+    <div class="tip-text">${t.text}</div>
+  </div>`).join('');
+
+// RENDER MENU
+document.getElementById('menuContent').innerHTML = weekMenu.map(d=>`
+  <div class="menu-section">
+    <div class="menu-day">📅 ${d.day}</div>
+    ${d.meals.map(m=>`
+    <div class="menu-card">
+      <span class="menu-time">${m.time}</span>
+      <span class="menu-food">${m.food}</span>
+      <span class="menu-cal">🔥 ${m.cal}</span>
+    </div>`).join('')}
+  </div>`).join('');
+
+// BMI
+function calcBMI(){
+  const h = parseFloat(document.getElementById('height').value)/100;
+  const w = parseFloat(document.getElementById('weight').value);
+  const res = document.getElementById('bmiResult');
+  if(!h||!w||h<=0||w<=0){res.classList.remove('show');return}
+  const bmi = (w/(h*h)).toFixed(1);
+  let label,color,advice;
+  if(bmi<18.5){label='Ozish';color='#3b82f6';advice='Ko\'proq kaloriyali ovqat yeing va shifokorga murojaat qiling.'}
+  else if(bmi<25){label='Normal ✅';color='var(--green)';advice='Ajoyib! Sog\'lom vazningizni saqlang.'}
+  else if(bmi<30){label='Ortiqcha vazn';color='var(--orange)';advice='Faoliyatni oshiring va shirinliklarni kamaytiring.'}
+  else{label='Semizlik';color='var(--red)';advice='Shifokor va dietolog bilan maslahatlashing.'}
+  res.style.background = color+'15';
+  res.style.border = `2px solid ${color}`;
+  document.getElementById('bmiNum').style.color = color;
+  document.getElementById('bmiNum').textContent = bmi;
+  document.getElementById('bmiLabel').textContent = label;
+  document.getElementById('bmiLabel').style.color = color;
+  document.getElementById('bmiAdvice').textContent = advice;
+  res.classList.add('show');
+}
+
+// NAV
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs = ['home','medicine','symptom','health'];
+  document.querySelectorAll('.nav-tab')[tabs.indexOf(id)].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showHealth(id){
+  document.querySelectorAll('.health-content').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.h-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
